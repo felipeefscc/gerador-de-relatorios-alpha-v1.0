@@ -1,0 +1,22 @@
+function successCallback(position, emenda) {
+    console.log("Emenda recebida:", emenda); // Verifica se o parâmetro está correto
+
+    let latitude = position.coords.latitude;
+    let longitude = position.coords.longitude;
+
+    // Verificando se os elementos existem
+    let latitudeInput = document.getElementById(`latitude${emenda}`);
+    let longitudeInput = document.getElementById(`longitude${emenda}`);
+
+    console.log("Elemento latitude encontrado?", latitudeInput);
+    console.log("Elemento longitude encontrado?", longitudeInput);
+
+    if (!latitudeInput || !longitudeInput) {
+        console.error("Erro: Campo de latitude/longitude não encontrado!");
+        return;
+    }
+
+    // Se os elementos existem, preenche os valores
+    latitudeInput.value = latitude;
+    longitudeInput.value = longitude;
+}

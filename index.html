@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Preencher Formulário PDF</title>
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    
+</head>
+<body>
+    <script src="modal.js"></script>
+    <script src="add.js"></script>
+    <script defer src="geradorPdf.js"></script>
+    <script src="geolocalizador.js"></script>
+    
+    
+
+    <div class="form-container">
+        <h1>Gerador de Croqui - Icomom</h1>
+
+        <label for="pontaA">Ponta A (site):</label>
+        <input type="text" id="pontaA" placeholder="Digite a Ponta A" maxlength="3" required />
+
+        <label for="pontaB">Ponta B (site) / Cliente (B2B):</label>
+        <input type="text" id="pontaB" placeholder="Digite a Ponta B" maxlength="20" required />
+
+        <label for="ta">TA:</label>
+        <input type="number" id="ta" placeholder="Digite o numéro da TA" maxlength="9" required /><br/>
+
+        <label for="data">Data:</label>
+        <input type="date" id="data" min="01-01-2020" maxlength="8" required/>
+        <br/>
+
+        <button class="btn-loc" onclick="getLocation('emenda1')">
+             Usar Minha Localização 📍
+        </button>
+
+        <label for="latitude">Latitude:</label>
+        <input type="text" id="latitudeemenda1"  placeholder="Digite a Latitude" />
+
+        <label for="longitude">Longitude:</label>
+        <input type="text" id="longitudeemenda1"  placeholder="Digite a Longitude"  />
+
+        <label for="local">Local:</label>
+        <input type="text" id="localemenda1" placeholder="Digite o local" required />
+
+        <label for="endereco">Endereço:</label>
+        <input type="text" id="enderecoemenda1" placeholder="Digite o Endereço" required/>
+
+        <label for="tecnico">Técnico:</label>
+        <input type="text" id="tecnico" placeholder="Digite o nome do Técnico" required/>
+
+        <label for="auxiliar">Auxiliar:</label>
+        <input type="text" id="auxiliar" placeholder="Digite o nome do auxiliar" />
+        
+        <label for="supervisor">Supervisor</label>
+            <select id="supervisor" required>
+                <option value="">--Selecione um supervisor! --</option>
+                <option value="Josias Sampaio">Josias Sampaio</option>
+                <option value="Maike Santos">Maike Santos</option>
+                <option value="João Victor">João Victor</option>
+                <option value="Yuri Freitas">Yuri Freitas</option>
+                <option value="Lucas Alves">Lucas Alves</option>
+            </select>
+        <br/>
+
+            <label for="coordenador">Coordenador:</label>
+            <select id="coordenador" required>
+                <option value="">--Selecione um coordenador! --</option>
+                <option value="Werley da Silva">Werley da Silva</option>
+                <option value="Deivison Gomes">Deivison Gomes</option>
+            </select>
+        <br/>
+
+        <label for="causa">Causa Raiz:</label>
+            <select id="causa" required>
+                <option value="">--Selecione um causa! --</option>
+                <option value="Degradação">Degradação</option>
+                <option value="Vandalismo">Vandalismo</option>
+                <option value="Carga Alta">Carga Alta</option>
+                <option value="Troca de Poste">Troca de Poste</option>
+                <option value="Descarga Eletrica">Descarga Eletrica</option>
+                <option value="Ação de Terceiros">Ação de Terceiros</option>
+                <option value="Atenuação">Atenuação</option>
+            </select>
+        <br/>
+        <label for="re">RE:</label>
+        <input type="number" id="re" placeholder="Digite o RE" required/>
+        <br/>
+
+        <label for="tratativa">Tratativas:</label>
+        <textarea id="tratativa"  rows="10" placeholder="Digite a tratativa" required></textarea>
+        <br/>
+        <button class="bottom1" onclick="openModal1()">Informações do Lançamento 📝</button>
+        <br/>
+        <label for="baixas">Baixas:</label>
+        <textarea id="baixas"  rows="10" placeholder="Digite quais foram as baixas" required></textarea>
+        
+        <h3>Cabo Utilizado:</h3>
+
+        <label for="drop4f0">Drop de 4fo:</label>
+        <input type="text" id="drop4f0" maxlength="1" placeholder="Marque com x" />
+        
+
+        <label for="drop12fo">Drop Circular de 12fo:</label>
+        <input type="text" id="drop12fo" maxlength="1" placeholder="Marque com x" />
+       
+
+        <label for="cabo24fo">Cabo de 24fo:</label>
+        <input type="text" id="cabo24fo" maxlength="1" placeholder="Marque com x" />
+       
+
+        <label for="cabo36fo">Cabo de 36f0:</label>
+        <input type="text" id="cabo36fo" maxlength="1" placeholder="Marque com x" />
+     
+
+        <label for="cabo48fo">Cabo de 48fo:</label>
+        <input type="text" id="cabo48fo" maxlength="1" placeholder="Marque com x" />
+      
+
+        <label for="cabo72fo">Cabo de 72fo:</label>
+        <input type="text" id="cabo72fo" maxlength="1" placeholder="Marque com x" />
+      
+
+        <label class="upcase" for="qCabo"><b>Quantidade de Cabo Utilizado:</b></label>
+        <input type="number" id="qCabo" placeholder="Digite a metragem de cabo utilizado" /> 
+        <br/>   
+
+        <h3>Emenda Utilizada:</h3>
+
+        <label for="ptro">PTRO:</label>
+        <input type="text" id="ptro" maxlength="1" placeholder="Marque com x" />
+        
+
+        <label for="ceo48fo">Caixa de emenda de 48fo:</label>
+        <input type="text" id="ceo48fo" maxlength="1" placeholder="Marque com x" />
+       
+
+        <label for="ceo72fo">Caixa de emenda de 72fo:</label>
+        <input type="text" id="ceo72fo" maxlength="1" placeholder="Marque com x" />
+        
+            
+        <label class="upcase" for="qEmenda"><b>Quantidade de Emenda Utilizadas:</b></label>
+        <input type="number" id="qEmenda" placeholder="Digite a quantidade" /> 
+
+        <br/> 
+        <!-- Botão que abre o pop-up -->
+        <button class="bottom1" onclick="openModal2()">Localização das emendas!</button>
+        <br/>
+        
+        <button class="bottom1"  id="fillPdfBtn">Preencher e Baixar PDF</button>
+
+        
+    </div>
+
+    <div id="myModal1" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal1()">&times;</span>
+            <h2>Preencha os Dados:</h2>
+
+            <div class="form-group">
+                <label for="nome">LANÇAMENTO TOTAL:</label>
+                <input type="text" id="nome" placeholder="Digite a metragem total do lançamento">
+            </div>
+
+            <div class="form-group">
+                <label for="email">RESERVA EMENDA 1:</label>
+                <input type="email" id="email" placeholder="METRAGEM DA RESERVA DA EMENDA 1">
+            </div>
+
+            <div class="form-group">
+                <label for="nome">RESERVA EMENDA 2:</label>
+                <input type="text" id="nome" placeholder="METRAGEM DA RESERVA DA EMENDA 2">
+            </div>
+
+            <div class="form-group">
+                <label for="email">QUANTIDADE DE LANCES:</label>
+                <input type="email" id="email" placeholder="QUANTIDADE DE LANCES DE POSTES UTILIZADOS">
+            </div>
+
+            <h2>Formulário Dinâmico</h2>
+            <form id="meuFormulario">
+            <div id="camposExtras">
+            <!-- Novos campos serão adicionados aqui -->
+            </div>
+            <button class="bottom1" type="button" onclick="adicionarCampo()">ADICIONAR LANCE</button>
+            </form>
+
+
+            <button class="bottom1"onclick="closeModal1()">Fechar</button>
+        </div>
+    </div>
+
+    <div id="myModal2" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal2()">&times;</span>
+            <h2>Preencha os Dados:</h2>
+
+            <h4>LOCALIZAÇÃO EMENDA 1</h4>
+            <button class="btn-loc" onclick="getLocation('emenda2')">
+                Usar Minha Localização 📍
+           </button>
+
+        <label for="endereco">Endereço:</label>
+        <input type="text" id="enderecoemenda2" placeholder="Digite o Endereço" required/>
+
+        <label for="latitude">Latitude:</label>
+        <input type="text" id="latitudeemenda2" placeholder="Digite a Latitude" />
+
+        <label for="longitude">Longitude:</label>
+        <input type="text" id="longitudeemenda2" placeholder="Digite a Longitude" />
+
+        <h4>LOCALIZAÇÃO EMENDA 2</h4>
+        <button class="btn-loc" onclick="getLocation('emenda3')">
+            Usar Minha Localização 📍
+       </button>
+
+        <label for="endereco">Endereço:</label>
+        <input type="text" id="enderecoemenda3" placeholder="Digite o Endereço" required/>
+
+        <label for="latitude">Latitude:</label>
+        <input type="text" id="latitudeemenda3" placeholder="Digite a Latitude" />
+
+        <label for="longitude">Longitude:</label>
+        <input type="text" id="longitudeemenda3" placeholder="Digite a Longitude" />
+
+
+        <button class="bottom1"onclick="closeModal2()">Fechar</button>
+            
+        </div>
+    </div>
+    
+</body>
+</html>
