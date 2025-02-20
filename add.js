@@ -1,23 +1,43 @@
-let contador = 0;
+let campoId = 1;
 
-        function adicionarCampo() {
-            contador++;
-            let container = document.getElementById("camposExtras");
-            
-            let div = document.createElement("div");
-            div.classList.add("campo-container");
-            div.id = `campo-${contador}`;
+function adicionarCampo() {
+    const camposExtras = document.getElementById('camposExtras');
+    const novoCampo = document.createElement('div');
+    novoCampo.classList.add('form-group');
+    novoCampo.id = `campo${campoId}`;
+    novoCampo.innerHTML = `
+        <label for="campo${campoId}">Lance ${campoId}:</label>
+        <input type="text" id="campo${campoId}" placeholder="Digite a informação do lance ${campoId}">
+    `;
+    camposExtras.appendChild(novoCampo);
+    campoId++;
+};
 
-            div.innerHTML = `
-                <label>Lance ${contador}:</label>
-                <input type="text" name="Lance[]" placeholder="Digite a metragem do lance!">
-                <button type="button" class="remover-btn" onclick="removerCampo(${contador})">Remover</button>
-            `;
+function removerCampo() {
+    if (campoId > 1) {
+        campoId--;
+        const campoARemover = document.getElementById(`campo${campoId}`);
+        campoARemover.remove();
+    }
+};
 
-            container.appendChild(div);
+function obterValoresCampos() {
+    const valoresCampos = [];
+    for (let i = 1; i < campoId; i++) {
+        const campo = document.getElementById(`campo${i}`);
+        if (campo) {
+            valoresCampos.push(campo.value);
         }
+    }
+    return valoresCampos;
+};
 
-        function removerCampo(id) {
-            let campo = document.getElementById(`campo-${id}`);
-            campo.remove();
-        }
+         
+function gerarPdf() {
+    const valoresCampos = obterValoresCampos();
+    console.log(valoresCampos); // Aqui você pode fazer o que precisar com os valores
+
+    valoresCampos.forEach((valor, index) => {
+        const campo = form.getTextField(`campo${index + 1}`);
+        campo.setText(valor);
+});}

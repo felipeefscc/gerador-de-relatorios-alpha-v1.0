@@ -9,13 +9,7 @@
     
 </head>
 <body>
-    <script src="modal.js"></script>
-    <script src="add.js"></script>
-    <script defer src="geradorPdf.js"></script>
-    <script src="geolocalizador.js"></script>
     
-    
-
     <div class="form-container">
         <h1>Gerador de Croqui - Icomom</h1>
 
@@ -88,11 +82,11 @@
         <label for="re">RE:</label>
         <input type="number" id="re" placeholder="Digite o RE" required/>
         <br/>
+        <button class="bottom1" onclick="openModal1()">Informações do Lançamento 📝</button>
+        <br/>
 
         <label for="tratativa">Tratativas:</label>
         <textarea id="tratativa"  rows="10" placeholder="Digite a tratativa" required></textarea>
-        <br/>
-        <button class="bottom1" onclick="openModal1()">Informações do Lançamento 📝</button>
         <br/>
         <label for="baixas">Baixas:</label>
         <textarea id="baixas"  rows="10" placeholder="Digite quais foram as baixas" required></textarea>
@@ -149,7 +143,7 @@
         <button class="bottom1" onclick="openModal2()">Localização das emendas!</button>
         <br/>
         
-        <button class="bottom1"  id="fillPdfBtn">Preencher e Baixar PDF</button>
+        <button class="bottom1"  id="fillPdfBtn" onclick="gerarPdf()">Preencher e Baixar PDF</button>
 
         
     </div>
@@ -161,30 +155,31 @@
 
             <div class="form-group">
                 <label for="nome">LANÇAMENTO TOTAL:</label>
-                <input type="text" id="nome" placeholder="Digite a metragem total do lançamento">
+                <input type="text" id="lancamenoTotal" placeholder="Digite a metragem total do lançamento">
             </div>
 
             <div class="form-group">
-                <label for="email">RESERVA EMENDA 1:</label>
-                <input type="email" id="email" placeholder="METRAGEM DA RESERVA DA EMENDA 1">
+                <label for="nome">RESERVA EMENDA 1:</label>
+                <input type="text" id="reservaEmenda1" placeholder="METRAGEM DA RESERVA DA EMENDA 1">
             </div>
 
             <div class="form-group">
                 <label for="nome">RESERVA EMENDA 2:</label>
-                <input type="text" id="nome" placeholder="METRAGEM DA RESERVA DA EMENDA 2">
+                <input type="text" id="reservaEmenda2" placeholder="METRAGEM DA RESERVA DA EMENDA 2">
             </div>
 
             <div class="form-group">
-                <label for="email">QUANTIDADE DE LANCES:</label>
-                <input type="email" id="email" placeholder="QUANTIDADE DE LANCES DE POSTES UTILIZADOS">
+                <label for="nome">QUANTIDADE DE LANCES:</label>
+                <input type="text" id="qtLances" placeholder="QUANTIDADE DE LANCES DE POSTES UTILIZADOS">
             </div>
 
-            <h2>Informações dos Lances</h2>
-            <form id="meuFormulario">
+            <h2>Formulário Dinâmico</h2>
+            <form id="formulario">
             <div id="camposExtras">
             <!-- Novos campos serão adicionados aqui -->
             </div>
             <button class="bottom1" type="button" onclick="adicionarCampo()">ADICIONAR LANCE</button>
+<button class="bottom1" type="button" onclick="removerCampo()">REMOVER LANCE</button>
             </form>
 
 
@@ -203,7 +198,7 @@
            </button>
 
         <label for="endereco">Endereço:</label>
-        <input type="text" id="enderecoemenda2" placeholder="Digite o Endereço" required/>
+        <input type="text" id="enderecoemenda2" placeholder="Digite o Endereço"/>
 
         <label for="latitude">Latitude:</label>
         <input type="text" id="latitudeemenda2" placeholder="Digite a Latitude" />
@@ -230,6 +225,10 @@
             
         </div>
     </div>
-    
+
+    <script src="modal.js"></script>
+    <script src=""></script>
+    <script defer src="geradorPdf.js"></script>
+    <script src="geolocalizador.js"></script>
 </body>
 </html>

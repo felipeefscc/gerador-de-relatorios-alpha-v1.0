@@ -1,11 +1,7 @@
-document.addEventListener("DOMContentLoaded", function() {
-    console.log("DOM carregado!");
-});
-
 function getLocation(emenda) {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
-            (position) => successCallback(position, emenda), // 🔥 Passamos `emenda` corretamente!
+            (position) => successCallback(position, emenda),
             errorCallback
         );
     } else {
@@ -14,79 +10,80 @@ function getLocation(emenda) {
 }
 
 function successCallback(position, emenda) {
-    console.log("Emenda recebida:", emenda); // Verifica se o parâmetro está correto
-    let latitude = position.coords.latitude;
-    let longitude = position.coords.longitude;
+    console.log(`📍 Buscando campos para: ${emenda}`);
 
-    let latitudeInput = document.getElementById(`latitude${emenda}`);
-    let longitudeInput = document.getElementById(`longitude${emenda}`);
-
-    let enderecoInput = document.getElementById(`endereco${emenda}`); // Campo de endereço
-
-    console.log("Elemento latitude encontrado?", latitudeInput);
-    console.log("Elemento longitude encontrado?", longitudeInput);
-    console.log("Elemento endereco encontrado?", enderecoInput);
-
-
-    if (!latitudeInput || !longitudeInput) {
-        console.log(`Erro: Campos latitude/longitude para ${emenda} não encontrados!`);
-        return; // Evita que o código tente acessar um campo inexistente
-    }
-
-
-    document.getElementById(`latitude${emenda}`).value = latitude;
-    document.getElementById(`longitude${emenda}`).value = longitude;
-
+    // Espera um pouco para garantir que o modal já foi carregado
     setTimeout(() => {
+        let latitudeInput = document.getElementById(`latitude${emenda}`);
+        let longitudeInput = document.getElementById(`longitude${emenda}`);
+        let enderecoInput = document.getElementById(`endereco${emenda}`);
+        let localInput = document.getElementById(`local${emenda}`);
 
-    // Chamada para API de Geocodificação (Google Maps)
-    let apiKey = "AIzaSyAVOatMQNAi9OCPXkjwPDi5Off6CStrorM"; // Insira sua chave da API do Google Maps
-    let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
+        console.log("🔍 Latitude input encontrado?", latitudeInput);
+        console.log("🔍 Longitude input encontrado?", longitudeInput);
+        console.log("🔍 Endereço input encontrado?", enderecoInput);
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === "OK") {
-                let address = data.results[0].address_components;
-                let rua = "", numero = "", bairro = "", cidade = "", estado = "", cep = "";
+        if (!latitudeInput || !longitudeInput || !enderecoInput) {
+            console.error(`❌ Erro: Campos não encontrados para ${emenda}!`);
+            return;
+        }
 
-                address.forEach(component => {
-                    if (component.types.includes("route")) {
-                        rua = component.long_name;
-                    }
-                    if (component.types.includes("street_number")) {
-                        numero = component.long_name;
-                    }
-                    if (component.types.includes("sublocality") || component.types.includes("sublocality_level_1")) {
-                        bairro = component.long_name;
-                    }
-                    if (component.types.includes("administrative_area_level_2")) {
-                        cidade = component.long_name;
-                    }
-                    if (component.types.includes("administrative_area_level_1")) {
-                        estado = component.short_name;
-                    }
-                    if (component.types.includes("postal_code")) {
-                        cep = component.long_name;
-                    }
-                });
+        let latitude = position.coords.latitude;
+        let longitude = position.coords.longitude;
 
-                // Preenchendo os campos do formulário
-                document.getElementById(`local${emenda}`).value = `${cidade} - ${estado}`;
-                document.getElementById(`endereco${emenda}`).value = `${rua}, ${numero} - ${bairro}`;
-                document.getElementById(`latitude${emenda}`).value = `${latitude}`;
-                document.getElementById(`longitude${emenda}`).value = `${longitude}`;
+        latitudeInput.value = latitude;
+        longitudeInput.value = longitude;
+
+        let apiKey = "AIzaSyAVOatMQNAi9OCPXkjwPDi5Off6CStrorM"; // Substitua pela sua chave do Google Maps
+        let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "OK" && data.results.length > 0) {
+                    let address = data.results[0].address_components;
+                    let { rua, numero, bairro, cidade, estado } = extractAddress(address);
+
+                    console.log("📌 Endereço formatado:", `${rua}, ${numero} - ${bairro}`);
                 
-                enderecoInput.value = data.results[0].formatted_address;
-                enderecoInput.focus();
-            } else {
-                alert("Endereço não encontrado.");
-            }
-        })
-        .catch(error => console.log("Erro ao obter endereço: ", error));
-    }, 1000); // 500ms de delay
+                    enderecoInput.value = `${rua}, ${numero} - ${bairro}`;
+                    enderecoInput.focus();
+                    localInput.value = `${cidade} - ${estado}`;
+                    
+                } else {
+                    alert("❌ Endereço não encontrado!");
+                }
+
+                if (latitudeemenda1 == latitudeemenda2) {
+                    
+                    alert("❌ Endereços não podem ser iguais!");
+                    
+                } else {
+
+                };
+
+                
+
+            })
+            .catch(error => console.error("❌ Erro ao obter endereço:", error));
+    }, 300); // Pequeno atraso para garantir que o modal já foi carregado
+}
+
+function extractAddress(components) {
+    let addressData = { rua: "", numero: "", bairro: "", cidade: "", estado: "" };
+
+    components.forEach(component => {
+        if (component.types.includes("route")) addressData.rua = component.long_name;
+        if (component.types.includes("street_number")) addressData.numero = component.long_name;
+        if (component.types.includes("sublocality")) addressData.bairro = component.long_name;
+        if (component.types.includes("administrative_area_level_2")) addressData.cidade = component.long_name;
+        if (component.types.includes("administrative_area_level_1")) addressData.estado = component.short_name;
+    });
+
+    return addressData;
 }
 
 function errorCallback(error) {
-    alert("Erro ao obter localização: " + error.message);
+    console.error("❌ Erro ao obter localização:", error);
+    alert("Não foi possível obter a localização. Verifique as permissões do navegador.");
 }

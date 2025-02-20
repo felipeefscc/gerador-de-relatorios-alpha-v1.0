@@ -1,66 +1,13 @@
-let campoId = 1;
-
-function adicionarCampo() {
-    const camposExtras = document.getElementById('camposExtras');
-    const novoCampo = document.createElement('div');
-    novoCampo.classList.add('form-group');
-    novoCampo.id = `campo${campoId}`;
-    novoCampo.innerHTML = `
-        <label for="campo${campoId}">Lance ${campoId}:</label>
-        <input type="text" id="campo${campoId}" name="campo${campoId}" placeholder="Digite a informação do lance ${campoId}">
-    `;
-    camposExtras.appendChild(novoCampo);
-    campoId++;
-}
-
-function removerCampo() {
-    if (campoId > 1) {
-        campoId--;
-        const campoARemover = document.getElementById(`campo${campoId}`);
-        campoARemover.remove();
-    }
-};
-
-function obterValoresCampos() {
-    const valoresCampos = [];
-    // Seleciona os campos com o id 'campo1', 'campo2', ..., 'campoN'
-    for (let i = 1; i < campoId; i++) {
-        const campo = document.getElementById(`campo${i}`);
-        if (campo) {
-            console.log(`Campo ${i}:`, campo.value);  // Verifica o valor de cada campo
-            valoresCampos.push(campo.value);
-        }
-    }
-    return valoresCampos;
-}
-
-
-async function gerarPdf() {
-    // Carregar o arquivo PDF
-    const pdfFile = await fetch('croquibase.pdf').then(res => res.arrayBuffer());
+document.getElementById('fillPdfBtn').addEventListener('click', async () => {
+    // Obter o arquivo PDF
+    const pdfFile = await fetch('./croquibase.pdf').then(res => res.arrayBuffer());
+    
     const pdfDoc = await PDFLib.PDFDocument.load(pdfFile);
+
+    // Obter o formulário (campo de texto)
     const form = pdfDoc.getForm();
 
-    // Obter os valores dos campos dinâmicos
-    const valoresCampos = obterValoresCampos();
-
-    // Preencher os campos no PDF
-    valoresCampos.forEach((valor, index) => {
-        const campo = form.getTextField(`campo${index + 1}`);
-        if (campo) {
-            // Verifique se o valor é válido
-            if (valor === undefined || isNaN(valor) && valor === '') {
-                valor = ''; // Substitui por uma string vazia se o valor for inválido
-            }
-            campo.setText(String(valor)); // Assegura que o valor seja uma string
-        }
-    });
-
-    console.log(`o teste é esse: ${campo1}`);
-
-    
-    
-
+    // Preencher os campos com os dados fornecidos
     const pontaA = document.getElementById('pontaA').value.toUpperCase();
     const pontaB = document.getElementById('pontaB').value.toUpperCase();
     const ta = document.getElementById('ta').value;
@@ -116,8 +63,6 @@ async function gerarPdf() {
 
     const qtLancesField = form.getTextField('qtLances');
     qtLancesField.setText(qtLances);
-
-    
 
     //Modal2
     const enderecoemenda2Field = form.getTextField('enderecoemenda2');
@@ -214,7 +159,7 @@ async function gerarPdf() {
     const longitudeField = form.getTextField('longitudeemenda1');
     longitudeField.setText(longitude);
 
-    // Salvar o PDF modificado
+    // Serializar o PDF modificado
     const pdfBytes = await pdfDoc.save();
 
     // Criar um nome dinâmico para o PDF
@@ -226,4 +171,4 @@ async function gerarPdf() {
     link.href = URL.createObjectURL(blob);
     link.download = nomeArquivo;
     link.click();
-}
+});
