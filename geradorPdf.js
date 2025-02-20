@@ -21,18 +21,18 @@ function removerCampo() {
     }
 };
 
-//function obterValoresCampos() {
-//    const valoresCampos = [];
+function obterValoresCampos() {
+    const valoresCampos = [];
     // Seleciona os campos com o id 'campo1', 'campo2', ..., 'campoN'
- //   for (let i = 1; i < campoId; i++) {
- //       const campo = document.getElementById(`campo${i}`);
-  //      if (campo) {
- //           console.log(`Campo ${i}:`, campo.value);  // Verifica o valor de cada campo
-  //          valoresCampos.push(campo.value);
-  //      }
- //   }
-  //  return valoresCampos;
-//};
+    for (let i = 1; i < campoId; i++) {
+       const campo = document.getElementById(`campo${i}`);
+        if (campo) {
+            console.log(`Campo ${i}:`, campo.value);  // Verifica o valor de cada campo
+            valoresCampos.push(campo.value);
+        }
+    }
+    return valoresCampos;
+};
 
 
 async function gerarPdf() {
@@ -42,19 +42,19 @@ async function gerarPdf() {
     const form = pdfDoc.getForm();
 
     // Obter os valores dos campos dinâmicos
-    //const valoresCampos = obterValoresCampos();
+    const valoresCampos = obterValoresCampos();
 
     // Preencher os campos no PDF
-    //valoresCampos.forEach((valor, index) => {
-    //    const campo = form.getTextField(`campo${index + 1}`);
-    //    if (campo) {
+    valoresCampos.forEach((valor, index) => {
+        const campo = form.getTextField(`campo${index + 1}`);
+        if (campo) {
             // Verifique se o valor é válido
-    //        if (valor === undefined || isNaN(valor) && valor === '') {
-    //            valor = ''; // Substitui por uma string vazia se o valor for inválido
-    //        }
-    //        campo.setText(String(valor)); // Assegura que o valor seja uma string
-    //    }
-   // });
+            if (valor === undefined || isNaN(valor) && valor === '') {
+                valor = ''; // Substitui por uma string vazia se o valor for inválido
+            }
+            campo.setText(String(valor)); // Assegura que o valor seja uma string
+        }
+    });
 
     
 
@@ -103,19 +103,6 @@ async function gerarPdf() {
     const enderecoemenda3 = document.getElementById('enderecoemenda3').value;
     const latitudeemenda3 = document.getElementById('latitudeemenda3').value;
     const longitudeemenda3 = document.getElementById('longitudeemenda3').value;
-
-    const campo1 = document.getElementById('campo1').value;
-    const campo2 = document.getElementById('campo2').value;
-    const campo3 = document.getElementById('campo3').value;
-
-    const campo1Field = form.getTextField('campo1');
-    campo1Field.setText(campo1);
-
-    const campo2Field = form.getTextField('campo2');
-    campo2Field.setText(campo2);
-
-    const campo3Field = form.getTextField('campo3');
-    campo3Field.setText(campo3);
 
 
     //Modal1
