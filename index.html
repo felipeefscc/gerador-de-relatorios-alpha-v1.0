@@ -9,6 +9,21 @@
     
 </head>
 <body>
+
+    <!-- <div id="informativoModal" class="modalAviso">
+        <div class="modal-content">
+            <h1>INSTRUÇÕES:</h1>
+            <p>Este é um gerador de croqui, abaixo tem algumas dicas para agilizar o processo e evitar retornos do mesmo.</p>
+            <p>O campo "LOCAL:" é indicado para o uso da região, como exemplo: "Salvador - BA" ou "Camaçari - BA".</p>
+            <p>O campo "ENDEREÇO" necessita ser composto por: Nome da rua, numero e bairro, em caso de rodovias, adicionar o KM.</p>
+            <p>O campo latitude e longitude precisam ser preenchidos.</p>
+            <p>Agora temos o uso da localização atual, fazendo com que o endereço seja preenchido de forma automatica, para isso, basta permitir o acesso a sua localização.</p>
+            <p>Para o preenchimento de materiais, basta digitar um "X" no tipo de cabo, ou caixa desejado, e ao fim, colocar a quantidade que foi utilizada. </p>
+            <p>Ao finalizar, não esquecer de encaminhar o CROQUI no grupo destinado ao mesmo! </p>
+
+            <button id="fecharModal" class="bottom1">Fechar</button>
+        </div>
+    </div> -->
     
     <div class="form-container">
         <h1>Gerador de Croqui - Icomom</h1>
@@ -57,7 +72,7 @@
                 <option value="Yuri Freitas">Yuri Freitas</option>
                 <option value="Lucas Alves">Lucas Alves</option>
             </select>
-        <br/>
+        
 
             <label for="coordenador">Coordenador:</label>
             <select id="coordenador" required>
@@ -65,7 +80,7 @@
                 <option value="Werley da Silva">Werley da Silva</option>
                 <option value="Deivison Gomes">Deivison Gomes</option>
             </select>
-        <br/>
+        
 
         <label for="causa">Causa Raiz:</label>
             <select id="causa" required>
@@ -78,7 +93,7 @@
                 <option value="Ação de Terceiros">Ação de Terceiros</option>
                 <option value="Atenuação">Atenuação</option>
             </select>
-        <br/>
+        
         <label for="re">RE:</label>
         <input type="number" id="re" placeholder="Digite o RE" required/>
         <br/>
@@ -86,15 +101,16 @@
         <br/>
 
         <label for="tratativa">Tratativas:</label>
-        <textarea id="tratativa"  rows="10" placeholder="Digite a tratativa" required></textarea>
+        <textarea class="areatext" id="tratativa"  rows="10" placeholder="Digite a tratativa" required></textarea>
         <br/>
         <label for="baixas">Baixas:</label>
-        <textarea id="baixas"  rows="10" placeholder="Digite quais foram as baixas" required></textarea>
+        <textarea class="areatext"  id="baixas"  rows="10" placeholder="Digite quais foram as baixas" required></textarea>
         
         <h3>Cabo Utilizado:</h3>
 
-        <label for="drop4f0">Drop de 4fo:</label>
-        <input type="text" id="drop4f0" maxlength="1" placeholder="Marque com x" />
+    
+        <label for="drop4fo">Drop de 4fo:</label>
+        <input type="text" id="drop4fo" maxlength="1" placeholder="Marque com x" />
         
 
         <label for="drop12fo">Drop Circular de 12fo:</label>
@@ -118,7 +134,7 @@
       
 
         <label class="upcase" for="qCabo"><b>Quantidade de Cabo Utilizado:</b></label>
-        <input type="number" id="qCabo" placeholder="Digite a metragem de cabo utilizado" /> 
+        <input type="number" class="campoNumero" id="qCabo" placeholder="Digite a metragem de cabo utilizado" /> 
         <br/>   
 
         <h3>Emenda Utilizada:</h3>
@@ -143,7 +159,7 @@
         <button class="bottom1" onclick="openModal2()">Localização das emendas!</button>
         <br/>
         
-        <button class="bottom1"  id="fillPdfBtn" onclick="gerarPdf()">Preencher e Baixar PDF</button>
+        <button class="bottom1"  id="fillPdfBtn" onclick="console.log('Botão clicado'); gerarPdf()">Preencher e Baixar PDF</button>
 
         
     </div>
@@ -152,34 +168,36 @@
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal1()">&times;</span>
             <h2>Preencha os Dados:</h2>
+            <br/>
 
             <div class="form-group">
                 <label for="nome">LANÇAMENTO TOTAL:</label>
-                <input type="text" id="lancamenoTotal" placeholder="Digite a metragem total do lançamento">
+                <input type="number" class="campoNumero" id="lancamenoTotal" placeholder="Digite a metragem total do lançamento">
             </div>
 
             <div class="form-group">
                 <label for="nome">RESERVA EMENDA 1:</label>
-                <input type="text" id="reservaEmenda1" placeholder="METRAGEM DA RESERVA DA EMENDA 1">
+                <input type="number" class="campoNumero" id="reservaEmenda1" placeholder="METRAGEM DA RESERVA DA EMENDA 1">
             </div>
 
             <div class="form-group">
                 <label for="nome">RESERVA EMENDA 2:</label>
-                <input type="text" id="reservaEmenda2" placeholder="METRAGEM DA RESERVA DA EMENDA 2">
+                <input type="number" class="campoNumero" id="reservaEmenda2" placeholder="METRAGEM DA RESERVA DA EMENDA 2">
             </div>
 
             <div class="form-group">
                 <label for="nome">QUANTIDADE DE LANCES:</label>
-                <input type="text" id="qtLances" placeholder="QUANTIDADE DE LANCES DE POSTES UTILIZADOS">
+                <input type="number" id="qtLances" placeholder="QUANTIDADE DE LANCES DE POSTES UTILIZADOS">
             </div>
+            <br/>
 
             <h2>Formulário Dinâmico</h2>
+            
             <form id="formulario">
             <div id="camposExtras">
-            <!-- Novos campos serão adicionados aqui -->
             </div>
             <button class="bottom1" type="button" onclick="adicionarCampo()">ADICIONAR LANCE</button>
-<button class="bottom1" type="button" onclick="removerCampo()">REMOVER LANCE</button>
+            <button class="bottom1" type="button" onclick="removerCampo()">REMOVER LANCE</button>
             </form>
 
 
@@ -191,11 +209,14 @@
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal2()">&times;</span>
             <h2>Preencha os Dados:</h2>
+            <br/>
 
             <h4>LOCALIZAÇÃO EMENDA 1</h4>
+            <br/>
             <button class="btn-loc" onclick="getLocation('emenda2')">
                 Usar Minha Localização 📍
            </button>
+           <br/>
 
         <label for="endereco">Endereço:</label>
         <input type="text" id="enderecoemenda2" placeholder="Digite o Endereço"/>
@@ -207,9 +228,11 @@
         <input type="text" id="longitudeemenda2" placeholder="Digite a Longitude" />
 
         <h4>LOCALIZAÇÃO EMENDA 2</h4>
+        <br/>
         <button class="btn-loc" onclick="getLocation('emenda3')">
             Usar Minha Localização 📍
        </button>
+       <br/>
 
         <label for="endereco">Endereço:</label>
         <input type="text" id="enderecoemenda3" placeholder="Digite o Endereço" required/>
@@ -227,8 +250,9 @@
     </div>
 
     <script src="modal.js"></script>
-    <script src=""></script>
-    <script defer src="geradorPdf.js"></script>
+    <script src="modalAviso.js"></script>
+    <script src="add.js"></script>
+    <script src="geradorPdf.js"></script>
     <script src="geolocalizador.js"></script>
 </body>
 </html>

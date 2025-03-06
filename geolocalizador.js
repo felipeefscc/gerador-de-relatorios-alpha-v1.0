@@ -66,7 +66,7 @@ function successCallback(position, emenda) {
 
             })
             .catch(error => console.error("❌ Erro ao obter endereço:", error));
-    }, 300); // Pequeno atraso para garantir que o modal já foi carregado
+    }, 200); // Pequeno atraso para garantir que o modal já foi carregado
 }
 
 function extractAddress(components) {

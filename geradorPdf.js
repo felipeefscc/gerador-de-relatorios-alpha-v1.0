@@ -1,64 +1,28 @@
-let campoId = 1;
-
-function adicionarCampo() {
-    const camposExtras = document.getElementById('camposExtras');
-    const novoCampo = document.createElement('div');
-    novoCampo.classList.add('form-group');
-    novoCampo.id = `campo${campoId}`;
-    novoCampo.innerHTML = `
-        <label for="campo${campoId}">Lance ${campoId}:</label>
-        <input type="number" id="campo${campoId}" name="campo${campoId}" placeholder="Digite a informação do lance ${campoId}">
-    `;
-    camposExtras.appendChild(novoCampo);
-    campoId++;
-}
-
-function removerCampo() {
-    if (campoId > 1) {
-        campoId--;
-        const campoARemover = document.getElementById(`campo${campoId}`);
-        campoARemover.remove();
-    }
-};
-
-function obterValoresCampos() {
-    const valoresCampos = [];
-    // Seleciona os campos com o id 'campo1', 'campo2', ..., 'campoN'
-    for (let i = 1; i < campoId; i++) {
-       const campo = document.getElementById(`campo${i}`);
-        if (campo) {
-            console.log(`Campo ${i}:`, campo.value);  // Verifica o valor de cada campo
-            valoresCampos.push(campo.value);
-        }
-    }
-    return valoresCampos;
-};
-
-
 async function gerarPdf() {
-    // Carregar o arquivo PDF
+    const valoresCampos = obterValoresCampos();
+    console.log("Valores coletados para o PDF:", valoresCampos);
+
     const pdfFile = await fetch('croquibase.pdf').then(res => res.arrayBuffer());
     const pdfDoc = await PDFLib.PDFDocument.load(pdfFile);
     const form = pdfDoc.getForm();
 
-    // Obter os valores dos campos dinâmicos
-    const valoresCampos = obterValoresCampos();
+    // Verifique o número de campos no PDF
+    const numCamposPdf = form.getFields().length;
+    console.log("Número de campos no PDF:", numCamposPdf);
 
-    // Preencher os campos no PDF
     valoresCampos.forEach((valor, index) => {
-        const campo = form.getTextField(`campo${index + 1}`);
-        if (campo) {
-            // Verifique se o valor é válido
-            if (valor === undefined || isNaN(valor) && valor === '') {
-                valor = ''; // Substitui por uma string vazia se o valor for inválido
-            }
-            campo.setText(String(valor)); // Assegura que o valor seja uma string
+        // Evitar acessar um campo que não existe
+        const campoNome = `campo${index + 1}`;
+        const campoPdf = form.getTextField(campoNome);
+
+        if (campoPdf) {
+            console.log(`Preenchendo o campo ${campoNome} com o valor: ${valor}`);
+            campoPdf.setText(valor);
+        } else {
+            console.log(`⚠ Campo PDF ${campoNome} não encontrado.`);
         }
     });
 
-    
-
-    
     
 
     const pontaA = document.getElementById('pontaA').value.toUpperCase();
@@ -81,7 +45,7 @@ async function gerarPdf() {
     const longitude = document.getElementById('longitudeemenda1').value;
 
     // Emendas
-    const drop4f0 = document.getElementById('drop4f0').value;
+    const drop4f0 = document.getElementById('drop4fo').value;
     const drop12fo = document.getElementById('drop12fo').value;
     const cabo24fo = document.getElementById('cabo24fo').value;
     const cabo36fo = document.getElementById('cabo36fo').value;
